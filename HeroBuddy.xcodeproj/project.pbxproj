@@ -16,6 +16,7 @@
 		BA937CE826F92F6200A265D0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA937CE626F92F6200A265D0 /* LaunchScreen.storyboard */; };
 		BA937CF326F92F6300A265D0 /* HeroBuddyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA937CF226F92F6300A265D0 /* HeroBuddyTests.swift */; };
 		BA937CFE26F92F6300A265D0 /* HeroBuddyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA937CFD26F92F6300A265D0 /* HeroBuddyUITests.swift */; };
+		BA937D1226F933C700A265D0 /* HeroListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA937D1126F933C700A265D0 /* HeroListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		BA937CF926F92F6300A265D0 /* HeroBuddyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HeroBuddyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA937CFD26F92F6300A265D0 /* HeroBuddyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroBuddyUITests.swift; sourceTree = "<group>"; };
 		BA937CFF26F92F6300A265D0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA937D1126F933C700A265D0 /* HeroListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 				BA937CD826F92F5400A265D0 /* AppDelegate.swift */,
 				BA937CDA26F92F5400A265D0 /* SceneDelegate.swift */,
 				BA937CDC26F92F5400A265D0 /* HeroListViewController.swift */,
+				BA937D1126F933C700A265D0 /* HeroListTableViewCell.swift */,
 				BA937CDE26F92F5400A265D0 /* Main.storyboard */,
 				BA937CE426F92F6200A265D0 /* Assets.xcassets */,
 				BA937CE626F92F6200A265D0 /* LaunchScreen.storyboard */,
@@ -263,6 +266,7 @@
 			files = (
 				BA937CE326F92F5400A265D0 /* HeroBuddy.xcdatamodeld in Sources */,
 				BA937CDD26F92F5400A265D0 /* HeroListViewController.swift in Sources */,
+				BA937D1226F933C700A265D0 /* HeroListTableViewCell.swift in Sources */,
 				BA937CD926F92F5400A265D0 /* AppDelegate.swift in Sources */,
 				BA937CDB26F92F5400A265D0 /* SceneDelegate.swift in Sources */,
 			);
