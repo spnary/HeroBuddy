@@ -10,6 +10,7 @@ import UIKit
 struct HeroListItem {
     let id: String
     let name: String
+    let description: String
     let thumbnailURL: String
     var thumbnail: UIImage?
 }
@@ -28,13 +29,14 @@ func heroListItemsFromJsonObject(_ object: [AnyHashable: Any]) -> [HeroListItem]
         guard let character = character as? [AnyHashable: Any],
               let id = character["id"] as? Int,
               let name = character["name"] as? String,
+              let description = character["description"] as? String,
               let thumbnailDictionary = character["thumbnail"] as? [AnyHashable: Any],
               let thumbnailURL = thumbnailDictionary["path"] as? String,
               let thumbnailExtension = thumbnailDictionary["extension"] as? String else {
             print("oops. missing character data")
             continue
         }
-        let characterEntry = HeroListItem(id: String(id), name: name, thumbnailURL: "\(thumbnailURL).\(thumbnailExtension)")
+        let characterEntry = HeroListItem(id: String(id), name: name, description: description, thumbnailURL: "\(thumbnailURL).\(thumbnailExtension)")
         characters.append(characterEntry)
     }
     

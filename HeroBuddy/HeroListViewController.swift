@@ -29,6 +29,13 @@ class HeroListViewController: UIViewController {
         }
     }
 
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard segue.identifier == "heroDetailSegue",
+              let detailVC = segue.destination as? HeroDetailViewController,
+              let selectedRow = tableView?.indexPathForSelectedRow else { return }
+        let heroItem = heroList[selectedRow.row]
+        detailVC.heroItem = heroItem
+    }
 
 }
 
