@@ -24,16 +24,16 @@ func heroListItemsFromJsonObject(_ object: [AnyHashable: Any]) -> [HeroListItem]
     }
     var characters: [HeroListItem] = []
     for character in characterResults {
-        print(character)
         guard let character = character as? [AnyHashable: Any],
               let id = character["id"] as? Int,
               let name = character["name"] as? String,
               let thumbnailDictionary = character["thumbnail"] as? [AnyHashable: Any],
-              let thumbnailURL = thumbnailDictionary["path"] as? String else {
+              let thumbnailURL = thumbnailDictionary["path"] as? String,
+              let thumbnailExtension = thumbnailDictionary["extension"] as? String else {
             print("oops. missing character data")
             continue
         }
-        let characterEntry = HeroListItem(id: String(id), name: name, thumbnailURL: thumbnailURL)
+        let characterEntry = HeroListItem(id: String(id), name: name, thumbnailURL: "\(thumbnailURL).\(thumbnailExtension)")
         characters.append(characterEntry)
     }
     

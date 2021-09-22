@@ -12,11 +12,10 @@ class HeroListViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView?
     
     var heroList: [HeroListItem] = []
-    
+    let dataRequester = DataRequester()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let dataRequester = DataRequester()
         dataRequester.getCharacters() { [weak self] response, error in
             guard let response = response else {
                 print("Missing response data")
@@ -28,8 +27,6 @@ class HeroListViewController: UIViewController {
             }
             
         }
-        
-        // Do any additional setup after loading the view.
     }
 
 
@@ -52,6 +49,22 @@ extension HeroListViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+}
+
+extension HeroListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let heroItem = heroList[indexPath.row]
+        guard let heroCell = cell as? HeroListTableViewCell, let thumbnailURL = URL(string: heroItem.thumbnailURL) else { return }
+        
+        dataRequester.getThumbnail(url: thumbnailURL) { image, error in
+            guard let image = image else { return }
+            DispatchQueue.main.async {
+                heroCell.thumbnailView?.image = image
+                heroCell.setNeedsLayout()
+            }
+
+        }
     }
 }
 
