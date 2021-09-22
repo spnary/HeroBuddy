@@ -40,6 +40,7 @@ extension HeroListViewController: UITableViewDataSource {
         }
         let heroItem = heroList[indexPath.row]
         heroListCell.nameLabel?.text = heroItem.name
+        heroListCell.thumbnailView?.image = heroItem.thumbnail ?? UIImage(systemName: "person.fill")
         return heroListCell
     }
     
@@ -57,13 +58,16 @@ extension HeroListViewController: UITableViewDelegate {
         let heroItem = heroList[indexPath.row]
         guard let heroCell = cell as? HeroListTableViewCell, let thumbnailURL = URL(string: heroItem.thumbnailURL) else { return }
         
-        dataRequester.getThumbnail(url: thumbnailURL) { image, error in
-            guard let image = image else { return }
-            DispatchQueue.main.async {
-                heroCell.thumbnailView?.image = image
-                heroCell.setNeedsLayout()
-            }
+        if heroItem.thumbnail == nil {
+            dataRequester.getThumbnail(url: thumbnailURL) { [weak self] image, error in
+                guard let image = image else { return }
+                self?.heroList[indexPath.row].thumbnail = image
+                DispatchQueue.main.async {
+                    heroCell.thumbnailView?.image = image
+                    heroCell.setNeedsLayout()
+                }
 
+            }
         }
     }
 }

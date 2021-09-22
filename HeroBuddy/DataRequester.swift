@@ -19,7 +19,7 @@ class DataRequester {
     
     func getCharacters(completion: @escaping (([AnyHashable: Any]?, Error?) -> Void)) {
         var components = URLComponents(string: baseURLString.appending("/v1/public/characters"))
-        let limitQueryItem = URLQueryItem(name: "limit", value: "3")
+        let limitQueryItem = URLQueryItem(name: "limit", value: "20")
         let queryItems = DataRequester.authQueryItems() + [limitQueryItem]
         components?.queryItems = queryItems
         guard let url = components?.url else {

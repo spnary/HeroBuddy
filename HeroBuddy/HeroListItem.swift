@@ -5,12 +5,13 @@
 //  Created by Stephen Nary on 9/20/21.
 //
 
-import Foundation
+import UIKit
 
 struct HeroListItem {
     let id: String
     let name: String
     let thumbnailURL: String
+    var thumbnail: UIImage?
 }
 
 func heroListItemsFromJsonObject(_ object: [AnyHashable: Any]) -> [HeroListItem] {
