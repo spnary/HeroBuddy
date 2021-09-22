@@ -10,7 +10,6 @@ import UIKit
 class HeroDetailViewController: UIViewController {
     
     @IBOutlet weak var thumbnailView: UIImageView?
-    @IBOutlet weak var nameLabel: UILabel?
     @IBOutlet weak var descriptionLabel: UILabel?
     
     var heroItem: HeroListItem? {
@@ -27,8 +26,8 @@ class HeroDetailViewController: UIViewController {
 
     func updateView() {
         guard let heroItem = heroItem else { return }
+        navigationItem.title = heroItem.name
         thumbnailView?.image = heroItem.thumbnail
-        nameLabel?.text = heroItem.name
         descriptionLabel?.text = heroItem.description
     }
 
