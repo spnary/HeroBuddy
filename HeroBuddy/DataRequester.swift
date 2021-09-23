@@ -15,10 +15,9 @@ class DataRequester {
         case invalidResponse
         case invalidImage
     }
+    
     let baseURLString = "https://gateway.marvel.com"
     let session = URLSession(configuration: .default)
-    
-    
     func getCharacters(completion: @escaping (([HeroItem]?, Error?) -> Void)) {
         if let heroItems = getCharactersFromCoreData(), !heroItems.isEmpty {
             completion(heroItems, nil)
@@ -29,6 +28,11 @@ class DataRequester {
                     return
                 }
                 let heroList = heroItemsFromJsonObject(response)
+                heroList.forEach { hero in
+                    DispatchQueue.main.async {
+                        hero.save()
+                    }
+                }
                 completion(heroList, nil)
             }
         }

@@ -14,6 +14,42 @@ struct HeroItem {
     let description: String
     let thumbnailURL: String
     var thumbnail: UIImage?
+    
+    func save() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        let heroRequest = NSFetchRequest<NSManagedObject>(entityName: "Hero")
+        let predicate = NSPredicate(format: "id == %@", id)
+        heroRequest.predicate = predicate
+        var heroEntities: [NSManagedObject] = []
+        do {
+            heroEntities = try managedContext.fetch(heroRequest)
+            
+        } catch {
+            print("error updating hero: \(error)")
+        }
+        let hero: NSManagedObject
+        if let firstEntity = heroEntities.first  {
+            hero = firstEntity
+        } else {
+            guard let heroEntity = NSEntityDescription.entity(forEntityName: "Hero", in: managedContext) else { return }
+            hero = NSManagedObject(entity: heroEntity, insertInto: managedContext)
+        }
+        hero.setValue(id, forKey: "id")
+        hero.setValue(name, forKey: "name")
+        hero.setValue(description, forKey: "heroDescription")
+        hero.setValue(thumbnailURL, forKey: "thumbnailURL")
+        if let thumbnailData = thumbnail?.pngData() {
+            hero.setValue(thumbnailData, forKey: "thumbnail")
+        }
+        
+        do {
+            try managedContext.save()
+        } catch {
+            print("error saving hero: \(error.localizedDescription)")
+        }
+    }
 }
 
 func heroItemsFromJsonObject(_ object: [AnyHashable: Any]) -> [HeroItem] {
@@ -48,8 +84,11 @@ func heroItemFrom(_ managedObject: NSManagedObject) -> HeroItem? {
     guard let id = managedObject.value(forKey: "id") as? String,
           let name = managedObject.value(forKey: "name") as? String,
           let description = managedObject.value(forKey: "heroDescription") as? String,
-          let thumbnailURL = managedObject.value(forKey: "thumbnailURL") as? String,
-          let thumbnail = managedObject.value(forKey: "thumbnail") as? UIImage else { return nil }
+          let thumbnailURL = managedObject.value(forKey: "thumbnailURL") as? String else { return nil }
+    var thumbnail: UIImage?
+    if let thumbnailData = managedObject.value(forKey: "thumbnail") as? Data {
+        thumbnail = UIImage(data: thumbnailData)
+    }
     
     return HeroItem(id: id, name: name, description: description, thumbnailURL: thumbnailURL, thumbnail: thumbnail)
 }

@@ -2,11 +2,12 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20G165" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Hero" representedClassName="Hero" syncable="YES" codeGenerationType="class">
         <attribute name="heroDescription" optional="YES" attributeType="String"/>
-        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="id" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="thumbnail" optional="YES" attributeType="Binary"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="thumbnailURL" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Hero" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="Hero" positionX="-63" positionY="-18" width="128" height="104"/>
     </elements>
 </model>

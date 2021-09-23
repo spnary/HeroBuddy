@@ -69,7 +69,9 @@ extension HeroListViewController: UITableViewDelegate {
             dataRequester.getThumbnail(url: thumbnailURL) { [weak self] image, error in
                 guard let image = image else { return }
                 self?.heroList[indexPath.row].thumbnail = image
+                
                 DispatchQueue.main.async {
+                    self?.heroList[indexPath.row].save()
                     heroCell.thumbnailView?.image = image
                     heroCell.setNeedsLayout()
                 }
