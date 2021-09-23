@@ -7,6 +7,7 @@
 
 import UIKit
 import CryptoKit
+import CoreData
 
 class DataRequester {
     enum RequestError: Error {
@@ -17,7 +18,42 @@ class DataRequester {
     let baseURLString = "https://gateway.marvel.com"
     let session = URLSession(configuration: .default)
     
-    func getCharacters(completion: @escaping (([AnyHashable: Any]?, Error?) -> Void)) {
+    
+    func getCharacters(completion: @escaping (([HeroItem]?, Error?) -> Void)) {
+        if let heroItems = getCharactersFromCoreData(), !heroItems.isEmpty {
+            completion(heroItems, nil)
+        } else {
+            getCharactersFromWeb() { response, error in
+                guard let response = response else {
+                    completion(nil, error)
+                    return
+                }
+                let heroList = heroItemsFromJsonObject(response)
+                completion(heroList, nil)
+            }
+        }
+    }
+    
+    private func getCharactersFromCoreData() -> [HeroItem]? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let heroRequest = NSFetchRequest<NSManagedObject>(entityName: "Hero")
+        var heroItems: [HeroItem] = []
+        do {
+            let heroEntities = try managedContext.fetch(heroRequest)
+            for entity in heroEntities {
+                guard let heroItem = heroItemFrom(entity) else { continue }
+                heroItems.append(heroItem)
+            }
+            return heroItems
+        } catch {
+            print("error fetching heros from core data: \(error.localizedDescription)")
+            return nil
+        }
+        
+    }
+    
+    private func getCharactersFromWeb(completion: @escaping (([AnyHashable: Any]?, Error?) -> Void)){
         var components = URLComponents(string: baseURLString.appending("/v1/public/characters"))
         let limitQueryItem = URLQueryItem(name: "limit", value: "20")
         let queryItems = DataRequester.authQueryItems() + [limitQueryItem]

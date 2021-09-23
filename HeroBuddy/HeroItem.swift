@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import CoreData
 
-struct HeroListItem {
+struct HeroItem {
     let id: String
     let name: String
     let description: String
@@ -15,7 +16,7 @@ struct HeroListItem {
     var thumbnail: UIImage?
 }
 
-func heroListItemsFromJsonObject(_ object: [AnyHashable: Any]) -> [HeroListItem] {
+func heroItemsFromJsonObject(_ object: [AnyHashable: Any]) -> [HeroItem] {
     guard let characterData = object["data"] as? [AnyHashable: Any] else {
         print("Missing data")
         return []
@@ -24,7 +25,7 @@ func heroListItemsFromJsonObject(_ object: [AnyHashable: Any]) -> [HeroListItem]
         print("missing results")
         return []
     }
-    var characters: [HeroListItem] = []
+    var characters: [HeroItem] = []
     for character in characterResults {
         guard let character = character as? [AnyHashable: Any],
               let id = character["id"] as? Int,
@@ -36,9 +37,19 @@ func heroListItemsFromJsonObject(_ object: [AnyHashable: Any]) -> [HeroListItem]
             print("oops. missing character data")
             continue
         }
-        let characterEntry = HeroListItem(id: String(id), name: name, description: description, thumbnailURL: "\(thumbnailURL).\(thumbnailExtension)")
+        let characterEntry = HeroItem(id: String(id), name: name, description: description, thumbnailURL: "\(thumbnailURL).\(thumbnailExtension)")
         characters.append(characterEntry)
     }
     
     return characters
+}
+
+func heroItemFrom(_ managedObject: NSManagedObject) -> HeroItem? {
+    guard let id = managedObject.value(forKey: "id") as? String,
+          let name = managedObject.value(forKey: "name") as? String,
+          let description = managedObject.value(forKey: "heroDescription") as? String,
+          let thumbnailURL = managedObject.value(forKey: "thumbnailURL") as? String,
+          let thumbnail = managedObject.value(forKey: "thumbnail") as? UIImage else { return nil }
+    
+    return HeroItem(id: id, name: name, description: description, thumbnailURL: thumbnailURL, thumbnail: thumbnail)
 }

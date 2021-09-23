@@ -11,17 +11,17 @@ class HeroListViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView?
     
-    var heroList: [HeroListItem] = []
+    var heroList: [HeroItem] = []
     let dataRequester = DataRequester()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        dataRequester.getCharacters() { [weak self] response, error in
-            guard let response = response else {
-                print("Missing response data")
+        dataRequester.getCharacters() { [weak self] list, error in
+            guard let list = list else {
+                print("Missing hero data")
                 return
             }
-            self?.heroList = heroListItemsFromJsonObject(response)
+            self?.heroList = list
             DispatchQueue.main.async {
                 self?.tableView?.reloadData()
             }

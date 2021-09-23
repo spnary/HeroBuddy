@@ -12,7 +12,7 @@ class HeroDetailViewController: UIViewController {
     @IBOutlet weak var thumbnailView: UIImageView?
     @IBOutlet weak var descriptionLabel: UILabel?
     
-    var heroItem: HeroListItem? {
+    var heroItem: HeroItem? {
         didSet {
             updateView()
         }
